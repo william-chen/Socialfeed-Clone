@@ -29,20 +29,21 @@
     <% for(var post,i=0; post=posts[i]; i++) {%>
         <div class="row well">
 
-            <div class="col-xs-1">
+            <div class="col-md-1">
                 <img src="<%= post.image %>"/>
             </div>
             <div class="col-lg-9">
                 <div class="row">
                     <p>
                         <strong><%= post.name %></strong> <%= post.username %><br>
-                        <%- post.text %>
+                        <%- post.text %><br>
+                        <%- post.timestamp %>
                     </p>
                 </div>
                 <div class="row _icons">
-                    <i class="fa <%= post.liked ? "fa-thumbs-up" : "fa-thumbs-o-up" %> fa-2x _like" name="like<%= post.id %>"></i> 
-                    <a href="/reply/<%= post.id %>" class="fa fa-reply fa-2x"></a>
-                    <a href="/share/<%= post.id %>" class="fa fa-share-square-o fa-2x"></a>
+                    <i class="fa <%= post.liked ? "fa-thumbs-up" : "fa-thumbs-o-up" %> fa-2x _like" name="like<%= post.id %>" network="<%= post.network.name %>"></i> 
+                    <a href="/reply/<%= post.network.name %>/<%= post.id %>" class="fa fa-reply fa-2x"></a>
+                    <a href="/share/<%= post.network.name %>/<%= post.id %>" class="fa fa-share-square-o fa-2x"></a>
                 </div>
             </div>
             <div class="col-xs-2">
@@ -58,12 +59,13 @@
         $('._like').click(function() {
             var $this = $(this)
             var id = $this.attr('name').replace('like', '')
+            var network = $this.attr('network')
             $this.toggleClass('fa-thumbs-o-up')
             $this.toggleClass('fa-thumbs-up')
             if ($this.hasClass('fa-thumbs-up')) {
-                $.post('like/' + id)
+                $.post('like/' + network + '/' + id)
             } else {
-                $.post('unlike/' + id)
+                $.post('unlike/' + network + '/' + id)
             }
         })
     })

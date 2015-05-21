@@ -11,17 +11,23 @@ let flash = require('connect-flash')
 
 let passportMiddleware = require('./app/middlewares/passport')
 
-const NODE_ENV = process.env.NODE_ENV
+const NODE_ENV = process.env.NODE_ENV || 'development'
 
 let app = express(),
   config = requireDir('./config', {recurse: true}),
   port = process.env.PORT || 8000
+
+app.config = {
+	auth: config.auth[NODE_ENV],
+	database: config.database[NODE_ENV]
+}
 
 passportMiddleware.configure(config.auth[NODE_ENV])
 app.passport = passportMiddleware.passport
 
 // connect to the database
 mongoose.connect(config.database[NODE_ENV].url)
+//mongoose.connect('mongodb://127.0.0.1:27017/social-feed')
 
 // set up our express middleware
 app.use(morgan('dev')) // log every request to the console

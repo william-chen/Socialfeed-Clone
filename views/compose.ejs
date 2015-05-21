@@ -24,11 +24,13 @@
     <% } %>
 
     <div class="row">
-        <form>
+        <form action="/compose" method='post'>
             <div class="form-group">
-                <textarea name="reply" class="form-control" rows="3" placeholder="Compose your post here..."></textarea>
+                <textarea name="text" class="form-control" rows="3" placeholder="Compose your post here..."></textarea><br>
+                <button type="submit" name="twitter" class="btn btn-default">Post to Twitter</button>
+                <button type="submit" name="facebook" class="btn btn-default">Post to Facebook</button>
             </div>
-            <button type="submit" class="btn btn-default">Post</button>
+            
         </form>
     </div>
 </div>
